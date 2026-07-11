@@ -40,10 +40,9 @@ export const trophies = [
   { emoji: "💬", title: "Bestes Gespräch", text: "Eines von vielen, ehrlich gesagt." },
   { emoji: "🎲", title: "Unerwartetster Moment", text: "Damit hat wirklich niemand gerechnet." },
   { emoji: "🍯", title: "Süßeste Erinnerung", text: "Zu süß, um sie hier zu verraten." },
-  { emoji: "🎮", title: "Beste GTA Session", text: "Los Santos war nie chaotischer." },
+  { emoji: "🎮", title: "Beste RP Session", text: "Narco war nie chaotischer." },
   { emoji: "🎁", title: "Lieblingsgeschenk", text: "Es kommt von Herzen. Das zählt." },
   { emoji: "📱", title: "Lustigster Screenshot", text: "Für immer gespeichert." },
-  { emoji: "😴", title: "Bester Sleepcall", text: "Eingeschlafen. Beide. Perfekt." },
 ];
 
 export const littleThings = [
@@ -76,7 +75,7 @@ export const songs = [
   { title: "Cry For Me", artist: "The Weeknd", note: "Gänsehaut." },
   { title: "Earned It", artist: "The Weeknd", note: "Verdient." },
   { title: "Die For You", artist: "The Weeknd", note: "Sagt alles." },
-  { title: "The Fade of Ophelia", artist: "Memory Song", note: "💜 Unser Song." },
+  { title: "The Fade of Ophelia", artist: "Memory Song", note: "Das Lied, welches ich mir dir verbinde💜." },
 ];
 
 export const morningMessages = [
@@ -133,7 +132,7 @@ export const smileItems = [
   "Kleiner Reminder: Du hast ein Lächeln, das ganze Räume heller macht.",
   "Döner Dienstag zählt wissenschaftlich gesehen als Selfcare. 🥙",
   "Fun Fact: Otter halten Händchen beim Schlafen, damit sie nicht wegtreiben. 🦦",
-  "Denk an die chaotischste GTA Session ever. Genau die. 🎮",
+  "Denk an die chaotischste RP Situation ever. Genau die. 🎮",
   "Kompliment: Purple was invented for you. Fakt.",
   "Witz: Was macht ein Pirat am Computer? Er drückt die Enter-Taste. 🏴‍☠️",
   "Reminder: Yara denkt wahrscheinlich gerade an Möhren. Und an dich. 🥕",
@@ -226,18 +225,18 @@ export const italyContent = {
 
 export const gtaContent = {
   markers: [
-    { name: "Los Santos Downtown", emoji: "🌆", text: "Wo jede Session anfängt – und meistens im Chaos endet." },
-    { name: "Der Mount Chiliad", emoji: "⛰️", text: "Einmal hochgefahren, dreimal runtergefallen. Klassiker." },
-    { name: "Vespucci Beach", emoji: "🏖️", text: "Sonnenuntergang am Strand. Bis die Cops kamen." },
-    { name: "Die eine Mission", emoji: "🚁", text: "Drei Versuche. Fünf Lachanfälle. Null Erfolg. Beste Mission ever." },
+    { name: "Narco City", emoji: "🌆", text: "Wo jeder Tag anfängt – und meistens im Chaos endet." },
+    { name: "Der Mount Chiliad", emoji: "⛰️", text: "Einmal hochgefahren, dreimal runtergefallen." },
+    { name: "Vespucci Beach", emoji: "🏖️", text: "Sonnenuntergang am Strand. Bis der Disptach kam." },
+    { name: "Der eine Einsatz", emoji: "🚁", text: "Drei Versuche. Fünf Lachanfälle. Null Erfolg. Bester Einsatz ever." },
     { name: "Voice Chat Momente", emoji: "🎙️", text: "Die Hälfte der Zeit wurde gespielt. Die andere Hälfte nur gelacht." },
   ],
 };
 
 export const galleryItems = [
-  { src: photoYara, caption: "Goldene Stunde mit Yara", date: "Sommer 2025" },
-  { src: photoItaly, caption: "Italien-Träume", date: "Irgendwann bald" },
-  { src: photoLavender, caption: "Lila, wohin man schaut", date: "Für immer" },
+  { src: photoYara, caption: "Goldene Stunde mit Yara", date: "Für immer" },
+  { src: photoItaly, caption: "Der See bei dir", date: "Irgendwann bald" },
+  { src: photoLavender, caption: "Lila, wohin man schaut", date: "Überall" },
 ];
 
 export const floatingQuotes = [
