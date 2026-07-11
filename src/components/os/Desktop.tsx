@@ -9,6 +9,8 @@ import { AppWindow } from "@/components/os/AppWindow";
 import { Dock } from "@/components/os/Dock";
 import { dailyPick, greetings, timeOfDay, formatDateDE } from "@/lib/daily";
 import { floatingQuotes, littleThings } from "@/data/content";
+import { DesktopShortcuts } from "@/components/os/DesktopShortcuts";
+import { HeartTrail } from "@/components/effects/HeartTrail";
 
 interface WinState {
   id: string;
@@ -26,13 +28,22 @@ export function Desktop() {
   const zRef = useRef(10);
   const idxRef = useRef(0);
 
+  const [quoteIdx, setQuoteIdx] = useState(() => Math.floor(Math.random() * floatingQuotes.length));
+
   useEffect(() => {
     const i = setInterval(() => setNow(new Date()), 30000);
-    return () => clearInterval(i);
+    const q = setInterval(
+      () => setQuoteIdx((v) => (v + 1 + Math.floor(Math.random() * (floatingQuotes.length - 1))) % floatingQuotes.length),
+      6000,
+    );
+    return () => {
+      clearInterval(i);
+      clearInterval(q);
+    };
   }, []);
 
   const tod = timeOfDay(now);
-  const quote = useMemo(() => dailyPick(floatingQuotes, 5), []);
+  const quote = floatingQuotes[quoteIdx];
   const memoryOfDay = useMemo(() => dailyPick(littleThings, 9), []);
 
   const openApp = (id: string) => {
@@ -73,11 +84,24 @@ export function Desktop() {
         {/* Top-Bar */}
         <div className="glass-strong absolute top-0 right-0 left-0 z-20 flex items-center justify-between px-4 py-1.5 text-xs text-foreground/80">
           <span className="font-semibold">💜 Kathi OS</span>
-          <span className="hidden font-hand text-base text-primary md:block">{quote}</span>
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={quote}
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 6 }}
+              transition={{ duration: 0.5 }}
+              className="hidden font-hand text-base text-primary md:block"
+            >
+              {quote}
+            </motion.span>
+          </AnimatePresence>
           <span className="capitalize">
             {formatDateDE(now)} · {now.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })}
           </span>
         </div>
+
+        <DesktopShortcuts apps={APPS} onOpen={openApp} />
 
         {/* Widgets */}
         {windows.filter((w) => !w.minimized).length === 0 && (
@@ -141,6 +165,7 @@ export function Desktop() {
 
         <Dock apps={APPS} openIds={windows.map((w) => w.id)} onOpen={openApp} />
         <Precipitation mode={weather} />
+        <HeartTrail />
       </motion.div>
     </WeatherContext.Provider>
   );

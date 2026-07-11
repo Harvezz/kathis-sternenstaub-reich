@@ -1,29 +1,40 @@
 import { motion, AnimatePresence } from "motion/react";
-import { useEffect, useMemo, useState } from "react";
-import { Upload, Trash2, X, ImagePlus } from "lucide-react";
-import { addMedia, deleteMedia, listMedia, type MediaItem } from "@/lib/media-store";
-
-interface Entry extends MediaItem {
-  url: string;
-}
+import { useEffect, useState } from "react";
+import { Upload, Trash2, X, ImagePlus, Users } from "lucide-react";
+import {
+  listGallery,
+  uploadGallery,
+  removeGallery,
+  type GalleryEntry,
+} from "@/lib/gallery-store";
+import { supabase } from "@/integrations/supabase/client";
 
 export function MyGalleryApp() {
-  const [items, setItems] = useState<Entry[]>([]);
+  const [items, setItems] = useState<GalleryEntry[]>([]);
   const [active, setActive] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const refresh = async () => {
-    const list = await listMedia();
-    setItems(list.map((m) => ({ ...m, url: URL.createObjectURL(m.blob) })));
+    try {
+      const list = await listGallery();
+      setItems(list);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    refresh().catch((e) => setError(String(e)));
+    refresh();
+    const channel = supabase
+      .channel("gallery-items")
+      .on("postgres_changes", { event: "*", schema: "public", table: "gallery_items" }, () => refresh())
+      .subscribe();
     return () => {
-      // Revoke on unmount
-      items.forEach((i) => URL.revokeObjectURL(i.url));
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      supabase.removeChannel(channel);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -35,7 +46,7 @@ export function MyGalleryApp() {
     try {
       for (const f of Array.from(files)) {
         if (!f.type.startsWith("image") && !f.type.startsWith("video")) continue;
-        await addMedia(f);
+        await uploadGallery(f);
       }
       await refresh();
     } catch (e) {
@@ -45,21 +56,25 @@ export function MyGalleryApp() {
     }
   };
 
-  const removeItem = async (id: string) => {
-    await deleteMedia(id);
-    await refresh();
+  const removeItem = async (it: GalleryEntry) => {
+    if (!confirm("Wirklich löschen?")) return;
+    try {
+      await removeGallery(it.id, it.storage_path);
+      await refresh();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    }
   };
 
-  const total = items.length;
-  const empty = useMemo(() => total === 0, [total]);
+  const empty = items.length === 0 && !loading;
 
   return (
     <div>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h2 className="font-hand text-4xl text-primary">Meine Galerie</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Lade eigene Bilder & Videos hoch. Alles wird lokal in diesem Browser gespeichert – privat und nur für dich.
+          <h2 className="font-hand text-4xl text-primary">Unsere Galerie</h2>
+          <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
+            <Users className="h-3.5 w-3.5" /> Gemeinsam. Alle können Bilder und Videos hochladen und löschen.
           </p>
         </div>
         <label className="glass-strong inline-flex cursor-pointer items-center gap-2 rounded-2xl px-4 py-2 text-sm font-medium transition hover:scale-[1.03]">
@@ -71,16 +86,19 @@ export function MyGalleryApp() {
             accept="image/*,video/*"
             className="hidden"
             onChange={(e) => onFiles(e.target.files)}
+            disabled={busy}
           />
         </label>
       </div>
 
       {error && <p className="mt-4 text-sm text-destructive">{error}</p>}
 
-      {empty ? (
+      {loading ? (
+        <p className="mt-8 text-center text-sm text-muted-foreground">Lädt Erinnerungen…</p>
+      ) : empty ? (
         <label className="mt-8 flex cursor-pointer flex-col items-center justify-center gap-3 rounded-3xl border-2 border-dashed border-border p-14 text-center transition hover:bg-accent/20">
           <ImagePlus className="h-10 w-10 text-primary" />
-          <span className="font-hand text-2xl text-primary">Ziehe Dateien hier hin oder klicke</span>
+          <span className="font-hand text-2xl text-primary">Der erste Moment beginnt bei dir</span>
           <span className="text-xs text-muted-foreground">Bilder (JPG, PNG, WebP) und Videos (MP4, WebM)</span>
           <input
             type="file"
@@ -108,7 +126,7 @@ export function MyGalleryApp() {
                 )}
               </button>
               <button
-                onClick={() => removeItem(it.id)}
+                onClick={() => removeItem(it)}
                 className="absolute top-2 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-[oklch(0.15_0.02_300/70%)] text-foreground/80 opacity-0 backdrop-blur-md transition group-hover:opacity-100 hover:text-destructive"
                 aria-label="Löschen"
               >
