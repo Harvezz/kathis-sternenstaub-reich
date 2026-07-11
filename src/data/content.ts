@@ -234,7 +234,7 @@ export const gtaContent = {
 };
 
 export const galleryItems = [
-  { src: photoYara, caption: "Goldene Stunde mit Yara", date: "Für immer" },
+  { src: photoYara, caption: "Goldene Stunden mit Yara", date: "Für immer" },
   { src: photoItaly, caption: "Der See bei dir", date: "Irgendwann bald" },
   { src: photoLavender, caption: "Lila, wohin man schaut", date: "Überall" },
 ];
