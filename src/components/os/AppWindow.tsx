@@ -37,7 +37,7 @@ export function AppWindow({
   return (
     <motion.div
       drag={!full}
-      dragHandle=".window-drag-handle"
+      
       dragConstraints={containerRef}
       dragMomentum={false}
       dragElastic={0.05}
@@ -61,7 +61,7 @@ export function AppWindow({
         className="glass-strong flex h-full flex-col rounded-3xl"
         style={{ boxShadow: "var(--shadow-window)" }}
       >
-        <div className="window-drag-handle flex cursor-grab items-center gap-3 border-b border-border px-4 py-3 active:cursor-grabbing">
+        <div className="flex cursor-grab items-center gap-3 border-b border-border px-4 py-3 active:cursor-grabbing">
           <div className="flex gap-2">
             <button onClick={onClose} aria-label="Schließen" className="group flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[oklch(0.65_0.2_25)]">
               <X className="h-2.5 w-2.5 opacity-0 transition-opacity group-hover:opacity-80" />
