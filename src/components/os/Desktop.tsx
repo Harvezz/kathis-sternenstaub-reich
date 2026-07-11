@@ -165,6 +165,7 @@ export function Desktop() {
 
         <Dock apps={APPS} openIds={windows.map((w) => w.id)} onOpen={openApp} />
         <Precipitation mode={weather} />
+        <HeartTrail />
       </motion.div>
     </WeatherContext.Provider>
   );
