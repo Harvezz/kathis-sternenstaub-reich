@@ -75,7 +75,8 @@ export const songs = [
   { title: "Cry For Me", artist: "The Weeknd", note: "Gänsehaut." },
   { title: "Earned It", artist: "The Weeknd", note: "Verdient." },
   { title: "Die For You", artist: "The Weeknd", note: "Sagt alles." },
-  { title: "The Fade of Ophelia", artist: "Memory Song", note: "Das Lied, welches ich mir dir verbinde💜." },
+  { title: "The Fade of Ophelia", artist: "Taylor Swift", note: "I swear the loyalty to me." },
+  { title: "Legendary Lovers", artist: "Memory Song", note: "Das Lied, welches ich mir dir verbinde 💜." },
 ];
 
 export const morningMessages = [
