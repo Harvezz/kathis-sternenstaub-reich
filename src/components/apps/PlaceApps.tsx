@@ -29,7 +29,7 @@ export function ItalyApp() {
       <h2 className="font-hand text-4xl text-primary">Italien 🇮🇹</h2>
       <p className="mt-1 text-sm text-muted-foreground">Der Traum, der einen Platz auf der Landkarte hat.</p>
       <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }} className="mt-6 overflow-hidden rounded-3xl">
-        <img src={italyContent.image} alt="Italienischer See bei Sonnenuntergang" loading="lazy" width={1024} height={768} className="w-full object-cover" />
+        <img src={yaraContent.image} alt="Italienischer See bei Sonnenuntergang" loading="lazy" width={1024} height={768} className="w-full object-cover" />
       </motion.div>
       <div className="mt-6 space-y-3">
         {italyContent.places.map((p, i) => (
@@ -52,8 +52,8 @@ export function ItalyApp() {
 export function GtaApp() {
   return (
     <div className="mx-auto max-w-lg">
-      <h2 className="font-hand text-4xl text-primary">GTA World 🎮</h2>
-      <p className="mt-1 text-sm text-muted-foreground">Los Santos. Chaos. Lachanfälle im Voice Chat.</p>
+      <h2 className="font-hand text-4xl text-primary">GTA 5 🎮</h2>
+      <p className="mt-1 text-sm text-muted-foreground">Narco. Chaos. Lachanfälle jeden Tag.</p>
       <div className="mt-6 space-y-3">
         {gtaContent.markers.map((m, i) => (
           <motion.div
