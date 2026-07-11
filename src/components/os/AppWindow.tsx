@@ -32,31 +32,36 @@ export function AppWindow({
 }: AppWindowProps) {
   const isMobile = useIsMobile();
   const full = maximized || isMobile;
-  const offset = useRef({ x: 40 + (index % 5) * 36, y: 30 + (index % 4) * 28 });
+  const pos = useRef({ x: 40 + (index % 5) * 40, y: 20 + (index % 4) * 32 });
 
   return (
     <motion.div
       drag={!full}
+      dragHandle=".window-drag-handle"
       dragConstraints={containerRef}
       dragMomentum={false}
       dragElastic={0.05}
       onPointerDown={onFocus}
-      initial={{ opacity: 0, scale: 0.85, y: 40 }}
+      initial={{ opacity: 0, scale: 0.9, y: 20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.85, y: 40 }}
+      exit={{ opacity: 0, scale: 0.9, y: 20 }}
       transition={{ type: "spring", stiffness: 260, damping: 26 }}
-      style={{ zIndex: z }}
+      style={
+        full
+          ? { zIndex: z }
+          : { zIndex: z, left: pos.current.x, top: pos.current.y }
+      }
       className={
         full
           ? "absolute inset-2 flex flex-col overflow-hidden rounded-3xl md:inset-6"
-          : "absolute flex h-[min(70vh,560px)] w-[min(92vw,680px)] flex-col overflow-hidden rounded-3xl"
+          : "absolute flex h-[min(75vh,600px)] w-[min(92vw,720px)] flex-col overflow-hidden rounded-3xl"
       }
     >
       <div
         className="glass-strong flex h-full flex-col rounded-3xl"
-        style={{ boxShadow: "var(--shadow-window)", marginLeft: full ? 0 : offset.current.x, marginTop: full ? 0 : offset.current.y }}
+        style={{ boxShadow: "var(--shadow-window)" }}
       >
-        <div className="flex cursor-grab items-center gap-3 border-b border-border px-4 py-3 active:cursor-grabbing">
+        <div className="window-drag-handle flex cursor-grab items-center gap-3 border-b border-border px-4 py-3 active:cursor-grabbing">
           <div className="flex gap-2">
             <button onClick={onClose} aria-label="Schließen" className="group flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[oklch(0.65_0.2_25)]">
               <X className="h-2.5 w-2.5 opacity-0 transition-opacity group-hover:opacity-80" />

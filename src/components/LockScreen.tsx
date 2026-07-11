@@ -32,7 +32,7 @@ export function LockScreen({ onUnlock }: { onUnlock: () => void }) {
         <Starfield density={80} fireflies />
       </div>
 
-      <div className="relative flex h-full flex-col items-center pt-[14vh]">
+      <div className="relative flex h-full flex-col items-center pt-[18vh]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -47,20 +47,6 @@ export function LockScreen({ onUnlock }: { onUnlock: () => void }) {
           </div>
           <div className="mt-2 text-lg text-foreground/80 capitalize">{formatDateDE(now)}</div>
         </motion.div>
-
-        <motion.button
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 1 }}
-          onClick={onUnlock}
-          className="glass-strong mt-14 flex w-[min(90vw,22rem)] items-center gap-3 rounded-2xl p-4 text-left transition-transform hover:scale-[1.02]"
-        >
-          <span className="text-3xl">💜</span>
-          <span>
-            <span className="block text-sm font-semibold">Für Kathi</span>
-            <span className="block text-sm text-muted-foreground">Du hast eine neue Erinnerung, die auf dich wartet.</span>
-          </span>
-        </motion.button>
 
         <motion.button
           onClick={onUnlock}
