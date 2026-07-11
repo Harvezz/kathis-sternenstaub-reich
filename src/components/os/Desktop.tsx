@@ -9,6 +9,8 @@ import { AppWindow } from "@/components/os/AppWindow";
 import { Dock } from "@/components/os/Dock";
 import { dailyPick, greetings, timeOfDay, formatDateDE } from "@/lib/daily";
 import { floatingQuotes, littleThings } from "@/data/content";
+import { DesktopShortcuts } from "@/components/os/DesktopShortcuts";
+import { HeartTrail } from "@/components/effects/HeartTrail";
 
 interface WinState {
   id: string;
@@ -26,13 +28,22 @@ export function Desktop() {
   const zRef = useRef(10);
   const idxRef = useRef(0);
 
+  const [quoteIdx, setQuoteIdx] = useState(() => Math.floor(Math.random() * floatingQuotes.length));
+
   useEffect(() => {
     const i = setInterval(() => setNow(new Date()), 30000);
-    return () => clearInterval(i);
+    const q = setInterval(
+      () => setQuoteIdx((v) => (v + 1 + Math.floor(Math.random() * (floatingQuotes.length - 1))) % floatingQuotes.length),
+      6000,
+    );
+    return () => {
+      clearInterval(i);
+      clearInterval(q);
+    };
   }, []);
 
   const tod = timeOfDay(now);
-  const quote = useMemo(() => dailyPick(floatingQuotes, 5), []);
+  const quote = floatingQuotes[quoteIdx];
   const memoryOfDay = useMemo(() => dailyPick(littleThings, 9), []);
 
   const openApp = (id: string) => {
