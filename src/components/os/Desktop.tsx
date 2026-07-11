@@ -1,7 +1,5 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useMemo, useRef, useState } from "react";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const _keep = useMemo;
 import wallpaper from "@/assets/wallpaper-night.jpg";
 import { Starfield } from "@/components/effects/Starfield";
 import { Precipitation, type WeatherMode } from "@/components/effects/Precipitation";
