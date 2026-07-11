@@ -129,4 +129,7 @@
   ::-webkit-scrollbar-track {
     background: transparent;
   }
+    #lovable-badge {
+    display: none !important;
+  }
 }
