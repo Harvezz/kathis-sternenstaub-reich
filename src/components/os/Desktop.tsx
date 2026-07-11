@@ -84,11 +84,24 @@ export function Desktop() {
         {/* Top-Bar */}
         <div className="glass-strong absolute top-0 right-0 left-0 z-20 flex items-center justify-between px-4 py-1.5 text-xs text-foreground/80">
           <span className="font-semibold">💜 Kathi OS</span>
-          <span className="hidden font-hand text-base text-primary md:block">{quote}</span>
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={quote}
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 6 }}
+              transition={{ duration: 0.5 }}
+              className="hidden font-hand text-base text-primary md:block"
+            >
+              {quote}
+            </motion.span>
+          </AnimatePresence>
           <span className="capitalize">
             {formatDateDE(now)} · {now.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })}
           </span>
         </div>
+
+        <DesktopShortcuts apps={APPS} onOpen={openApp} />
 
         {/* Widgets */}
         {windows.filter((w) => !w.minimized).length === 0 && (
